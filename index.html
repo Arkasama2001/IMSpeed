@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      button {
+      text-align: center;
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px;
+      
+    }
+      .box{
+        font-family: monospace;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .red{
+        background-color: rgba(187, 107, 87, 0.452)
+      }
+      .blue{
+        background-color:rgba(54, 202, 79, 0.459);
+        opacity: unset;
+      }
+      .black{
+        color: rgb(0, 0, 0);
+      }
+      /* input{
+        border: none;
+        background: transparent;
+        outline-color: white;
+        color: white;
+        caret-color: transparent;
+      } */
+      .cursor{
+        background-color: rgba(14, 15, 5, 0.123);
+      }
+      .textBody{
+        text-align: right;
+      }
+      #Home{
+        margin: auto;
+        width: 60%;
+        border: 3px solid #73AD21;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">
+      <div id="test" v-if="testingBool">
+        <div  class="textBody">
+          <center>
+          <h1 style="width: fit-content;" class="box">
+            <span :class="characterColor[index+c]" v-for="(char,index) in message.substring(c-5,c+20)">{{char}}</span>
+          </h1>
+        </center>
+        </div>
+        <div id="textBody">
+        
+        <input id="inputfield" v-model="message3" @keydown.ctrl.prevent @keydown.left.right.up.down.prevent @input="storedata($event)" spellcheck="false">
+        
+        </div>
+      
+        <br>
+        <br>  
+        <br>
+        <button @click="func1()">start timer</button>
+        <button @click="func3()">stop</button>
+      </div>
+
+
+      <div id="Home" v-if="homeBool">
+        <div class="PageDeets">
+          <h3>Welcome to IMSpeed</h3>
+
+        </div>
+
+        <div class="buttons">
+          <button>Start test</button>
+          <button>Check stats</button>
+
+        </div>
+      </div>
+    </div>
+<script>
+  window.onload = function() {
+  document.getElementById("inputfield").focus();
+  }
+  // window.addEventListener("keydown", function(e) {
+  //           if([37, 38, 39, 40].indexOf(e.keyCode) > -1){
+  //               e.preventDefault();
+  //           }
+  //       }, false);
+  Vue.createApp({
+    data: function(){
+      return {
+        message: 'aaaaaaaaHello Vue!fasdfgsdggagagd sgdsgahgwagh arh gafh gah awrh areh adh arhdfh aerh reh ealsikjfbas;ofiahf afioafaish]asfhi9aoigehgnedpigedsha',
+        // p: message.split(""),
+        message3: '',
+        colors:["black","red","blue","cursor"],
+        characterColor:["black","blue","","","","cursor"],
+        variable1:null,
+        c: 5,
+        testingBool:true,
+        homeBool:true,
+        resultBool:false,
+      }
+    },
+    methods:{
+        storedata($event){
+            if(event.inputType!="deleteContentBackward"){
+              
+              if(this.c==this.message.length)
+              return
+              if(this.message[this.c]==this.message3[this.c-5])
+                this.characterColor[this.c-5]="blue"
+              else
+                this.characterColor[this.c-5]="red"
+              this.c++
+              this.characterColor[this.c-5]="cursor"
+              console.log(this.c-5)
+            }
+            else{
+              if(this.c!=0){
+                this.characterColor[this.c]="black"
+                this.c--
+                this.characterColor[this.c]="cursor"
+              }
+            }
+        },
+        func1(){
+          let that = this
+          this.characterColor[0]="cursor"
+
+          this.variable1 = setTimeout(()=>{
+            that.func2()
+          },2000)
+          console.log("in 1")
+        },
+        func2(){
+          alert("2")
+          console.log("in 2")
+        },
+        func3(){
+          clearTimeout(this.variable1)
+        }
+    }
+  }).mount('#app')
+</script>
+</html>
